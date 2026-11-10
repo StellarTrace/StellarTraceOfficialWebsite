@@ -1,0 +1,231 @@
+// element公用样式，如果有特别的再去重置
+
+// ========== 全局深色主题 ==========
+// 表格
+.el-table {
+  background-color: transparent !important;
+  color: #c0c0e0;
+  &::before {
+    display: none;
+  }
+  th.el-table__cell {
+    background-color: rgba(20, 20, 50, 0.9) !important;
+    color: #e0e0ff !important;
+    border-color: rgba(60, 60, 120, 0.3) !important;
+  }
+  td.el-table__cell {
+    background-color: transparent !important;
+    color: #c0c0e0 !important;
+    border-color: rgba(60, 60, 120, 0.3) !important;
+  }
+  .el-table__row {
+    background-color: transparent !important;
+    &:hover > td.el-table__cell {
+      background-color: rgba(30, 30, 80, 0.6) !important;
+    }
+  }
+  &.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+    background-color: rgba(15, 15, 40, 0.4) !important;
+  }
+  &.el-table--border,
+  &.el-table--group {
+    border-color: rgba(60, 60, 120, 0.3) !important;
+  }
+  .el-table__empty-block {
+    background-color: transparent !important;
+  }
+  .el-table__empty-text {
+    color: #8080a0;
+  }
+}
+
+// 对话框
+.el-dialog {
+  background-color: #0f0f2e !important;
+  border: 1px solid rgba(60, 60, 120, 0.3);
+  .el-dialog__header {
+    background-color: rgba(20, 20, 50, 0.9);
+    border-bottom: 1px solid rgba(60, 60, 120, 0.3);
+    .el-dialog__title {
+      color: #e0e0ff !important;
+    }
+    .el-dialog__headerbtn .el-dialog__close {
+      color: #8080a0;
+      &:hover {
+        color: #e0e0ff;
+      }
+    }
+  }
+  .el-dialog__body {
+    color: #c0c0e0;
+  }
+  .el-dialog__footer {
+    border-top: 1px solid rgba(60, 60, 120, 0.3);
+  }
+}
+
+// 描述列表
+.el-descriptions {
+  .el-descriptions__label {
+    background-color: rgba(30, 30, 60, 0.8) !important;
+    color: #a0a0c0 !important;
+    border-color: rgba(60, 60, 120, 0.3) !important;
+  }
+  .el-descriptions__content {
+    background-color: rgba(15, 15, 40, 0.6) !important;
+    color: #c0c0e0 !important;
+    border-color: rgba(60, 60, 120, 0.3) !important;
+  }
+  &.el-descriptions--border {
+    border-color: rgba(60, 60, 120, 0.3) !important;
+  }
+}
+
+// 下拉选择框
+.el-select {
+  .el-input__inner {
+    background-color: transparent !important;
+  }
+}
+.el-select-dropdown {
+  background-color: #0f0f2e !important;
+  border-color: rgba(60, 60, 120, 0.3) !important;
+  .el-select-dropdown__item {
+    color: #c0c0e0;
+    &:hover {
+      background-color: rgba(30, 30, 80, 0.6);
+    }
+    &.selected {
+      color: #4082fa;
+    }
+  }
+}
+
+// 分页
+.el-pagination {
+  color: #c0c0e0;
+  .el-pagination__jump {
+    color: #c0c0e0;
+    .el-input__inner {
+      background-color: transparent !important;
+    }
+  }
+  .el-pager li {
+    background-color: transparent;
+    color: #c0c0e0;
+    &.active {
+      color: #4082fa;
+    }
+    &:hover {
+      color: #4082fa;
+    }
+  }
+  .btn-prev, .btn-next {
+    background-color: transparent;
+    color: #c0c0e0;
+    &:hover {
+      color: #4082fa;
+    }
+    &[disabled] {
+      color: #505070;
+    }
+  }
+}
+
+// 标签页
+.el-tabs {
+  .el-tabs__item {
+    color: #8080a0;
+    &:hover {
+      color: #4082fa;
+    }
+    &.is-active {
+      color: #4082fa;
+    }
+  }
+  .el-tabs__active-bar {
+    background-color: #4082fa;
+  }
+  .el-tabs__nav-wrap::after {
+    background-color: rgba(60, 60, 120, 0.3);
+  }
+}
+
+// 卡片
+.el-card {
+  background-color: rgba(15, 15, 40, 0.6) !important;
+  border-color: rgba(60, 60, 120, 0.3) !important;
+  color: #c0c0e0;
+  .el-card__header {
+    border-bottom-color: rgba(60, 60, 120, 0.3);
+    color: #e0e0ff;
+  }
+}
+
+// 表单标签
+.el-form-item__label {
+  color: #a0a0c0 !important;
+}
+
+// 消息提示
+.el-message {
+  background-color: #0f0f2e !important;
+  border-color: rgba(60, 60, 120, 0.3) !important;
+  .el-message__content {
+    color: #c0c0e0;
+  }
+}
+.el-notification {
+  background-color: #0f0f2e !important;
+  border-color: rgba(60, 60, 120, 0.3) !important;
+  .el-notification__title {
+    color: #e0e0ff;
+  }
+  .el-notification__content {
+    color: #c0c0e0;
+  }
+}
+
+// 输入框的样式
+.el-input__inner {
+  background-color: transparent;
+  border: 1px solid rgba(64, 130, 250, 0.8);
+  color: #ffffff !important;
+  &:hover {
+    border: 1px solid rgba(76, 106, 163, 0.8);
+  }
+}
+.el-input-group__append, .el-input-group__prepend{
+  width: 15%;
+  background-color: transparent;
+  border-top: 1px solid #4082fa;
+  border-left: 1px solid #4082fa;
+  border-bottom: 1px solid #4082fa;
+}
+.el-textarea__inner{
+  background-color: transparent;
+  border: 1px solid rgba(64,130,250,0.40);
+  color: rgba(251, 252, 255, 0.8);
+  &:hover{
+    border: 1px solid rgba(76, 106, 163, 0.8);
+  }
+}
+
+// 按钮样式
+.el-button--primary  {
+  background-color: #3870d6;
+  color: #fff;
+  border: 1px solid #3870d6;
+  &:hover{
+    background-color:#4082fa;
+    color: #fff;
+    border: 1px solid #3870d6;
+  }
+}
+
+// 多选框样式checkbox,修改check的文字颜色
+.el-checkbox {
+  color: rgba(251, 252, 255, 0.97);
+  font-weight: 400;
+}
+
