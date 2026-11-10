@@ -4,8 +4,13 @@
     <el-row :gutter="20" class="stat-cards">
       <el-col :span="6" v-for="item in statCards" :key="item.label">
         <div class="stat-card" :style="{ borderLeftColor: item.color }">
-          <div class="stat-value">{{ item.value }}</div>
-          <div class="stat-label">{{ item.label }}</div>
+          <div class="stat-icon" :style="{ background: item.color }">
+            <i class="fa" :class="item.icon"></i>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value">{{ item.value }}</div>
+            <div class="stat-label">{{ item.label }}</div>
+          </div>
         </div>
       </el-col>
     </el-row>
@@ -77,10 +82,10 @@
       }
 
       const statCards = ref([
-        { label: '内容模块', value: '9', color: '#38bdf8' },
-        { label: '留言消息', value: '0', color: '#d946ef' },
-        { label: '技术项', value: '6', color: '#22c55e' },
-        { label: '里程碑', value: '4', color: '#f97316' }
+        { label: '内容模块', value: '9', color: '#38bdf8', icon: 'fa-th-large' },
+        { label: '留言消息', value: '0', color: '#d946ef', icon: 'fa-envelope' },
+        { label: '技术项', value: '6', color: '#22c55e', icon: 'fa-microchip' },
+        { label: '里程碑', value: '4', color: '#f97316', icon: 'fa-flag' }
       ])
 
       const loadStats = async () => {
@@ -136,22 +141,53 @@
   }
 
   .stat-card {
-    background: rgba(15, 15, 30, 0.8);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, rgba(15, 15, 30, 0.9), rgba(20, 20, 50, 0.8));
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-left: 4px solid;
     border-radius: 12px;
     padding: 20px;
+    transition: all 0.3s;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(14, 165, 233, 0.2);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      i {
+        font-size: 20px;
+        color: #fff;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      }
+    }
+
+    .stat-info {
+      flex: 1;
+    }
 
     .stat-value {
       font-size: 32px;
       font-weight: 700;
       color: #fff;
+      line-height: 1;
     }
 
     .stat-label {
       font-size: 14px;
       color: #a8a8ff;
-      margin-top: 4px;
+      margin-top: 6px;
     }
   }
 

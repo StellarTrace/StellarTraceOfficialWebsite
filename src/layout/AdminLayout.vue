@@ -36,12 +36,12 @@
         class="aside-menu"
       >
         <el-menu-item index="/admin/dashboard">
-          <i class="el-icon-s-home"></i>
+          <i class="fa fa-home"></i>
           <template #title>控制台</template>
         </el-menu-item>
         <el-sub-menu index="content">
           <template #title>
-            <i class="el-icon-document"></i>
+            <i class="fa fa-th-large"></i>
             <span>内容管理</span>
           </template>
           <el-menu-item index="/admin/home">首页横幅</el-menu-item>
@@ -55,7 +55,7 @@
         </el-sub-menu>
         <el-sub-menu index="interaction">
           <template #title>
-            <i class="el-icon-chat-line-square"></i>
+            <i class="fa fa-comments"></i>
             <span>互动管理</span>
           </template>
           <el-menu-item index="/admin/contact">联系信息</el-menu-item>
@@ -68,7 +68,7 @@
       <el-header class="admin-header">
         <div class="header-left">
           <i
-            :class="isCollapse ? 'el-icon-s-unfold' : 'el-icon-s-fold'"
+            :class="isCollapse ? 'fa fa-indent' : 'fa fa-outdent'"
             class="collapse-btn"
             @click="isCollapse = !isCollapse"
           ></i>
@@ -82,7 +82,7 @@
         <div class="header-right">
           <span class="user-name">{{ userInfo.nickname || userInfo.username || '管理员' }}</span>
           <el-dropdown @command="handleCommand">
-            <i class="el-icon-setting" style="font-size: 18px; cursor: pointer;"></i>
+            <i class="fa fa-cog setting-btn"></i>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item command="logout">退出登录</el-dropdown-item>
@@ -147,10 +147,25 @@
   }
 
   .admin-aside {
-    background: #0a0a1f;
-    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, #0a0a1f 0%, #0d0d28 60%, #0a0a1f 100%);
+    border-right: 1px solid rgba(56, 189, 248, 0.15);
+    box-shadow: 4px 0 24px rgba(14, 165, 233, 0.08);
     transition: width 0.3s;
     overflow: hidden;
+    position: relative;
+
+    // 侧边栏星空装饰
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image: radial-gradient(1px 1px at 30px 60px, rgba(255, 255, 255, 0.4), transparent),
+        radial-gradient(1px 1px at 120px 180px, rgba(56, 189, 248, 0.5), transparent),
+        radial-gradient(1px 1px at 80px 320px, rgba(255, 255, 255, 0.3), transparent),
+        radial-gradient(1px 1px at 160px 450px, rgba(217, 70, 239, 0.4), transparent);
+      background-size: 220px 500px;
+    }
 
     .aside-header {
       height: 60px;
@@ -158,12 +173,13 @@
       align-items: center;
       justify-content: center;
       padding: 0 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.15);
 
       .aside-logo {
         width: 32px;
         height: 32px;
         border-radius: 50%;
+        box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
       }
 
       .aside-title {
@@ -174,12 +190,14 @@
         -webkit-text-fill-color: transparent;
         margin-left: 8px;
         white-space: nowrap;
+        letter-spacing: 2px;
       }
 
       .aside-title-mini {
         font-size: 16px;
         font-weight: 700;
         color: #38bdf8;
+        text-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
       }
     }
 
@@ -187,6 +205,27 @@
       border-right: none;
       height: calc(100% - 60px);
       overflow-y: auto;
+      position: relative;
+      z-index: 1;
+
+      i {
+        margin-right: 8px;
+        width: 16px;
+        text-align: center;
+      }
+
+      .el-menu-item,
+      :deep(.el-sub-menu__title) {
+        transition: all 0.3s;
+        &:hover {
+          background: rgba(56, 189, 248, 0.08);
+        }
+      }
+
+      :deep(.el-menu-item.is-active) {
+        box-shadow: inset 3px 0 0 #38bdf8;
+        text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+      }
     }
   }
 
@@ -196,8 +235,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
-    background: #0a0a1f;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(10, 10, 31, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(56, 189, 248, 0.15);
 
     .header-left {
       display: flex;
@@ -205,11 +245,13 @@
       gap: 16px;
 
       .collapse-btn {
-        font-size: 20px;
+        font-size: 18px;
         cursor: pointer;
         color: #a8a8ff;
+        transition: all 0.3s;
         &:hover {
           color: #38bdf8;
+          text-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
         }
       }
     }
@@ -223,11 +265,28 @@
         color: #a8a8ff;
         font-size: 14px;
       }
+
+      .setting-btn {
+        font-size: 18px;
+        cursor: pointer;
+        color: #a8a8ff;
+        transition: all 0.3s;
+        &:hover {
+          color: #38bdf8;
+          text-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+        }
+      }
     }
   }
 
   .admin-main {
-    background: #050510;
+    background: radial-gradient(2px 2px at 10% 20%, rgba(255, 255, 255, 0.25), transparent),
+      radial-gradient(1px 1px at 30% 60%, rgba(255, 255, 255, 0.2), transparent),
+      radial-gradient(2px 2px at 70% 30%, rgba(56, 189, 248, 0.25), transparent),
+      radial-gradient(1px 1px at 85% 70%, rgba(255, 255, 255, 0.2), transparent),
+      radial-gradient(ellipse at 80% 110%, rgba(217, 70, 239, 0.06), transparent 50%),
+      radial-gradient(ellipse at 10% -10%, rgba(56, 189, 248, 0.06), transparent 50%), #050510;
+    background-attachment: fixed;
     overflow-y: auto;
   }
 

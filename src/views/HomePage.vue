@@ -467,8 +467,6 @@ function gravitationalWaveComm(data, distance) {
     let ring: any
     let ring2: any
     let animId = 0
-    let tailwindEl: HTMLScriptElement | null = null
-    let fontAwesomeEl: HTMLLinkElement | null = null
     let meteorTimer: ReturnType<typeof setInterval> | null = null
 
     const tailwindColorMap: Record<string, string> = {
@@ -492,22 +490,6 @@ function gravitationalWaveComm(data, distance) {
     const getColor = (colorName: string | undefined, fallback: string): string => {
       if (!colorName) return fallback
       return tailwindColorMap[colorName] || colorName
-    }
-
-    const loadCDN = () => {
-      tailwindEl = document.createElement('script')
-      tailwindEl.src = 'https://cdn.tailwindcss.com'
-      document.head.appendChild(tailwindEl)
-
-      fontAwesomeEl = document.createElement('link')
-      fontAwesomeEl.rel = 'stylesheet'
-      fontAwesomeEl.href = 'https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css'
-      document.head.appendChild(fontAwesomeEl)
-    }
-
-    const removeCDN = () => {
-      tailwindEl?.remove()
-      fontAwesomeEl?.remove()
     }
 
     const initThree = () => {
@@ -559,22 +541,33 @@ function gravitationalWaveComm(data, distance) {
       console.log('Three.js Earth initialized')
     }
 
+    let failedCount = 0
+    const softGet = (url: string, fallback: any) =>
+      request.get(url).catch(() => {
+        failedCount++
+        return fallback
+      })
+
     const fetchData = async () => {
+      failedCount = 0
       try {
         const [bannerRes, techRes, capRes, dashRes, metaRes, designRes, philRes, msRes, ecoRes, founderRes, replyRes, contactRes, siteConfigRes] = await Promise.all([
-          request.get('/home-banner/list').catch(() => ({ data: [] })),
-          request.get('/core-tech').catch(() => ({ data: [] })),
-          request.get('/ai-capability').catch(() => ({ data: [] })),
-          request.get('/ai-dashboard').catch(() => ({ data: [] })),
-          request.get('/metaphor').catch(() => ({ data: [] })),
-          request.get('/metaphor-design').catch(() => ({ data: {} })),
-          request.get('/philosophy').catch(() => ({ data: [] })),
-          request.get('/milestone').catch(() => ({ data: [] })),
-          request.get('/ecosystem').catch(() => ({ data: [] })),
-          request.get('/founder/list').catch(() => ({ data: [] })),
-          request.get('/ai-reply-template').catch(() => ({ data: [] })),
-          request.get('/contact-info').catch(() => ({ data: [] })),
-          getSiteConfig().catch(() => ({ data: {} }))
+          softGet('/home-banner/list', { data: [] }),
+          softGet('/core-tech', { data: [] }),
+          softGet('/ai-capability', { data: [] }),
+          softGet('/ai-dashboard', { data: [] }),
+          softGet('/metaphor', { data: [] }),
+          softGet('/metaphor-design', { data: {} }),
+          softGet('/philosophy', { data: [] }),
+          softGet('/milestone', { data: [] }),
+          softGet('/ecosystem', { data: [] }),
+          softGet('/founder/list', { data: [] }),
+          softGet('/ai-reply-template', { data: [] }),
+          softGet('/contact-info', { data: [] }),
+          getSiteConfig().catch(() => {
+            failedCount++
+            return { data: {} }
+          })
         ])
         banners.value = (bannerRes.data || []).filter((b: any) => b.status === 1).sort((a: any, b: any) => (a.sort_order || 0) - (b.sort_order || 0))
         coreTechs.value = techRes.data || []
@@ -593,6 +586,9 @@ function gravitationalWaveComm(data, distance) {
         /* ignore */
       } finally {
         loading.value = false
+        if (failedCount > 0) {
+          ElMessage.warning(`有 ${failedCount} 项数据加载失败，请确认后端服务已启动（server 目录 npm start）后刷新重试`)
+        }
       }
     }
 
@@ -716,7 +712,6 @@ function gravitationalWaveComm(data, distance) {
     }
 
     onMounted(() => {
-      loadCDN()
       fetchData()
       setTimeout(() => {
         initThree()
@@ -729,7 +724,6 @@ function gravitationalWaveComm(data, distance) {
     onBeforeUnmount(() => {
       cancelAnimationFrame(animId)
       renderer?.dispose()
-      removeCDN()
       if (meteorTimer) clearInterval(meteorTimer)
       window.removeEventListener('scroll', onScroll)
     })
