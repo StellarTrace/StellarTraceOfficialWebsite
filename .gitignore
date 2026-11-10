@@ -31,4 +31,6 @@ replay_pid*
 
 #build
 */target
+/node_modules
+*/node_modules
 
